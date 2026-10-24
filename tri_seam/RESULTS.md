@@ -41,7 +41,8 @@ Predictions: `PREREG.md`, committed before the run.
 
 - Re-score the 780-case structural-witness set (30.95% coverage) with per-face verdicts. This is the only existing number the tri-seam could move: by recording a FAIL on one face where the old instrument abstained. Needs that data and its format.
 - ~~Independent re-check of the 157 obstructions~~: **done**. 150 were re-certified by mwrank descent and 7 by the analytic rank-0 check (sections below).
-- Re-measure the |Sha[ψ]| group sizes (1, 9, 81) independently, and investigate why they are all squares.
+- ~~Re-measure the |Sha[ψ]| group sizes~~: **done**. 315/315 agree with the record (section below).
+- **Why** every |Sha[ψ]| is a square: still OPEN. Next step: compute the dual group Sha(E′)[ψ̂], or Cassels' Selmer ratio, for the same curves.
 
 ## Constructed cases K1–K3 (run 2026-10-24, `constructed_cases.py`)
 
@@ -135,3 +136,34 @@ Run on DL's Minisforum with system python3 and numpy 1.26.4. Nothing was install
   - No disagreements anywhere.
 - **Tri-seam, final for this box:** 234 PASS / 157 FAIL / 2 UNRESOLVED. The 2 are (1,25,29) and (19,25,29), which are solvable by descent; this pipeline holds no face-L point for them, but the record's points verify exactly.
 - **Not re-checked:** the |Sha[ψ]| group sizes and why they are all squares. Consistent with the record, but not computed: L(1) values of size 3–7 on rank-0 curves are what you expect when Sha is non-trivial. No BSD quotient was computed.
+
+## Independent re-measurement of |Sha(E/Q)[ψ]| (run 2026-10-24, `sha_check.py`; predictions in `PREREG_sha.md`)
+
+Run on DL's Minisforum with system python3, 32 workers, 0.35 s. The harness checksum matched (`ba6b2488…32eb38`).
+
+- **Sel^ψ:** the exact local test (`solvable_at`), after a p-adic normalisation. The normalisation was added after a slow development run and checked against the plain test on all 969 box cubics: 0 disagreements.
+- **im δ:** from mwrank generators (308 curves) or from analytic rank 0 (7 curves).
+- **Compared against:** the record's `~/Downloads/seam_sha_results.json`. Results are in `sha_results.json` on that machine.
+
+```json
+{"curves_measured":315,"curves_skipped":[],"S0_img_in_sel":"315/315","S0_power_of_3":"315/315",
+ "S0_trivial_and_D_in_sel":"315/315","S0_generators_supported_on_3D":"315/315","S0_cubic_checks_failed":[],
+ "local_tests_unresolved":0,"S1_distribution":{"1":196,"9":117,"81":2},"S1_size_81_D":[5610,20010],
+ "S2_record":"316 per-D values read","S2_comparison":{"compared":315,"agree_as_order":315,"agree_as_dimension":0,"disagree_examples":[]},
+ "S3_obstructed_D_with_sha_ge_9":"117/117","S4_all_squares":true,"S4_odd_dimension_D":[],"max_selmer_size":243,"secs":0.3}
+```
+
+| | Prediction | Outcome | Verdict |
+|---|---|---|---|
+| S0 | Consistency: im δ ⊆ Sel; powers of 3; 1 and [D] in Sel; 157 obstructed m ∈ Sel \ im δ; 236 solvable m ∈ im δ | Every check passes on 315/315 curves and all 393 cubics; 0 local tests unresolved | **Supported** |
+| S1 | 196 × 1, 117 × 9, 2 × 81, with the 81s at D = 5610 and 20010 | Exactly that | **Supported** |
+| S2 | Per-curve agreement with the record | **315/315 agree**, 0 disagreements | **Supported** |
+| S3 | Every D carrying an obstructed cubic has \|Sha[ψ]\| ≥ 9 | 117/117 | **Supported** |
+| S4 | All sizes are squares (re-observation only) | Yes; no odd dimension | **Supported as observation** |
+
+### What this shows (each item labelled)
+
+- **SOLID (independent re-measurement).** The record's |Sha(E/Q)[ψ]| values are reproduced on every one of the 315 companion curves. The Selmer groups use this project's own local test, and the images come from mwrank generators plus the 7 analytic rank-0 results. No PARI is used anywhere.
+- **Observation.** The 117 curves of size 9 are exactly the 117 values of D that carry an obstructed cubic in the box. Both size-81 curves (D = 5610, 20010) carry none. Their Sha elements correspond to diagonal cubics outside the box's coefficient bound or normalisation; that is **not checked**.
+- **Not investigated:** the record file holds 316 per-D entries, one more than the 315 curves of this box.
+- **OPEN, unchanged:** *why* every size is a square. The Cassels–Tate pairing relates Sha(E)[ψ] to the dual Sha(E′)[ψ̂], not to itself, so squareness is not automatic for the ψ-part. This run confirms the pattern; it does not explain it.
