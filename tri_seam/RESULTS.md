@@ -228,3 +228,60 @@ control D=65 rank=2    N=38025 w=1 L(1)=2.34122e-17 alt=3.45276e-17 err=5.5e-14 
 - **Combined with the dual-Sha run (exact):** on these 115 curves, Sha(E)[3] = Sha(E)[ψ] and Sha(E)[3^∞] is finite. So the Cassels–Tate pairing **forces** |Sha(E)[ψ]| to be a square. The square pattern is now **explained unconditionally** for 115/119 non-trivial curves; the 196 curves of size 1 are squares trivially.
 - **Still conditional:** D = 7590, 9570, 11730, 14790. All four have algebraic rank 2, where Kolyvagin does not apply. Finiteness of Sha there is the standard conjecture, not shown.
 - **Status of the explanation:** this applies known theorems (Cassels–Tate, Gross–Zagier, Kolyvagin) to the record's data. It is new **to the record**, and is not claimed as new mathematics; the literature was not checked.
+
+## Box widened to coefficients ≤ 50 (run 2026-10-24, `run_box.sh 50`; predictions in `PREREG_box50.md`)
+
+Run on DL's Minisforum, about 52 minutes in total: point search 2.5 min, mwrank 41 min, rank ≤ 1 stage 7 min. The scripts were fetched from this repo at commit `eded06b1`, and all 9 checksums matched. Before the run, the whole pipeline was re-run in the cloud at bound 30 and reproduced every earlier box-30 result. Outputs are in `~/Desktop/sshj/tri_seam/box50/`.
+
+```
+{"box_bound":50,"triples":4624,"admissible":1398,
+ "X0_nesting_box30":{"triples":969,"admissible":393,"with_point":234,"obstructed":157,"obstructed_set_equal_to_box30":true,
+  "sha_per_curve":{"compared":315,"mismatches":0},"dual_per_curve":{"compared":315,"mismatches":0},"rank_per_curve":{"compared":119,"mismatches":0}},
+ "X1_point_but_obstructed":[],"X2_failing_primes":[3,7,13,19,31,37,43],"X2_as_predicted":true,
+ "X3_obstructed_share":0.4542,"X3_counts":{"with_point":741,"solvable_by_descent_only":18,"obstructed":635,"unresolved":4},
+ "X4_sha_distribution":{"1":605,"3":4,"9":463,"81":11},"X4_all_squares":false,
+ "X4_dual_trivial":"1079/1083","X4_dual_nontrivial_D":[473,2852,4042,31175],
+ "X5_finite_sha_by_rank":{"0":"238/238","1":"212/212","2":"0/24"},
+ "X6_nontrivial_curves":474,"X6_carrier_curves":461,"X6_nontrivial_and_carrier":457,"X6_nontrivial_not_carrier":17,
+ "X6_carrier_not_nontrivial":[473,2852,4042,31175],"X7_decided_share":0.9971,
+ "curves_still_undecided":[21199,25897,33511,58261]  (each: analytic rank 1, but mwrank found no generator)}
+```
+
+| | Prediction | Outcome | Verdict |
+|---|---|---|---|
+| X0 | Box 30 reproduced exactly inside box 50 | 969 / 393 / 234 / 157; same obstructed set; 0 mismatches on Sha (315), dual (315), rank (119) | **Supported** |
+| X1 | No cubic with a point is classified obstructed | none | **Supported** |
+| X2 | Local failures exactly at {3, 7, 13, 19, 31, 37, 43} | exactly that | **Supported** |
+| X3 | Obstructed share (exploratory) | **45.4%**, against 39.9% in box 30 | reported |
+| X4 | Every \|Sha[ψ]\| a square; dual Sha trivial everywhere | **4 curves have \|Sha[ψ]\| = 3**: D = 473, 2852, 4042, 31175. The same 4 are the only curves with non-trivial dual Sha (size 3) | **Not supported**: an informative failure, as anticipated in the prereg |
+| X5 | Curves with \|Sha[ψ]\| ≥ 9 and rank ≤ 1: finite Sha | 238/238 at rank 0 and 212/212 at rank 1; 24 rank-2 curves not provable | **Supported** |
+| X6 | "Non-trivial Sha ⇔ carries an obstruction" (exploratory) | See the correction below | reported |
+| X7 | ≥ 95% decided | 99.7%; 4 cubics unresolved | **Supported** |
+
+### The four size-3 curves, re-checked independently in the cloud (2026-10-24)
+
+| D | Sel^ψ | im δ | \|Sha[ψ]\| | Sel^ψ̂ | \|Sha(E′)[ψ̂]\| | L(E′, 1), w = +1 |
+|---|---:|---:|---:|---:|---:|---:|
+| 473 | 9 | 3 | 3 | 3 | 3 | 6.12197 (err 2e-13) |
+| 2852 | 9 | 3 | 3 | 3 | 3 | 10.0906 (err 2e-13) |
+| 4042 | 9 | 3 | 3 | 3 | 3 | 8.98326 (err 4e-13) |
+| 31175 | 9 | 3 | 3 | 3 | 3 | 4.54671 (err 5e-13) |
+
+- **SOLID.** mwrank certifies rank 0 for all four, so im δ = ⟨[D]⟩ exactly and no generator can have been missed. Sel^ψ = 9 comes from the validated local test. Hence |Sha(E)[ψ]| = 3 is not an artefact.
+- **NUMERICAL + THEOREM.** L(E′, 1) ≠ 0 on all four, so Sha is finite (Kolyvagin).
+- **Consequence (exact, given finiteness).** |Sha(E)[ψ]| ≤ |Sha(E)[3]| ≤ |Sha(E)[ψ]| · |Sha(E′)[ψ̂]|, so 3 ≤ |Sha(E)[3]| ≤ 9. Cassels–Tate makes |Sha(E)[3]| a square, so **|Sha(E)[3]| = 9 exactly**. The 3-torsion splits as 3 on the ψ-side and 3 on the dual side.
+- **What this changes.** The box-30 observation "every |Sha[ψ]| is a square" was a property of that box, holding because the dual Sha happened to be trivial there. **The invariant that is always a square (given finiteness) is |Sha(E)[3]|, not |Sha(E)[ψ]|.** The earlier explanation stands, but the claim it explains is now stated correctly.
+
+### Correction to X6
+
+The report counted "non-trivial" as |Sha[ψ]| ≥ 9, and that threshold misfiled the four size-3 curves as "carriers without non-trivial Sha". With non-trivial meaning |Sha[ψ]| ≥ 3:
+- **Every curve carrying an obstructed cubic has non-trivial Sha[ψ]: 461/461.** This is forced by theory, since the cubic's class lies in Sel \ im δ.
+- 17 curves have |Sha[ψ]| ≥ 9 but carry no obstructed cubic inside the box. In box 30 there were 2 such curves.
+
+Because of the same threshold, `rank_check.py` skipped the four size-3 curves. They were checked separately above, and finite Sha is proven for all four.
+
+### Still open from box 50
+
+- **4 undecided curves:** D = 21199, 25897, 33511, 58261. Analytic rank 1 is proven, but mwrank found no generator. Needed: a point on E′, for instance from a larger search or a Heegner point.
+- **18 cubics solvable by descent alone.** No point was found with |x|, |y| ≤ 3000. A larger search, or reconstruction from the descent, would give face L its explicit witness.
+- **24 rank-2 curves.** Finiteness of Sha there stays conjectural, a limit of current theory.
