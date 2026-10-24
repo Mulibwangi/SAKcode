@@ -54,6 +54,38 @@ These results are already in the handover. The tri-seam does not re-prove them; 
 
 > P3 (CONCEPTUAL, motivated by the results above). The known failure modes are not all one kind: they sit on different faces. A seam instrument that reports per face is therefore strictly more diagnostic than a conjunctive one. This is a claim about *reporting*, not about the world.
 
+## 4b. A second "tri" shape: the three-term seam (from the Seam Obstruction Record, 2026-10-23)
+
+The Seam Obstruction Record (DL, 23 Oct 2026) offers a different three-part object: not three gates, but **three terms of an exact sequence**:
+
+```
+0 -> E'(Q)/psi E(Q) -> Sel^psi(E/Q) -> Sha(E/Q)[psi] -> 0
+     global objects    locally admissible   obstructions
+```
+
+with the amended law **globally realisable ⇔ locally admissible ∧ O = 0**.
+
+The record's results, with its own tags:
+- 157 of the 393 locally admissible diagonal cubics (coefficients up to 30) are certified local-global failures. **SOLID** (relies on PARI's `ellrank`, `ellsaturation` and `elltors`; no formal proof).
+- Quadrics: 744 of 744 obey the local-global principle. **SOLID**
+- Obstruction group sizes are 1, 9 and 81 only. **SOLID** as measured. *Why the sizes are all squares* is **OPEN**.
+- Human preferences between AI models (Chatbot Arena), Hodge-decomposed: no harmonic obstruction (β₁ = 0); the curl and split-half tests FAIL. **NEGATIVE** at the level of whole models.
+
+### How the two tri-shapes relate (all CONCEPTUAL; proposed, not shown)
+
+| Three-term seam | Faces reading (§2) | Comment |
+|---|---|---|
+| Locally admissible (Selmer) | **A**, plus **Co** checked *locally* (patch by patch) | Local data only |
+| Obstruction O | **Co** failing *globally* while passing locally | The "joint obstruction" result made exact: O is a computable class, not a vague misfit |
+| Global object | Seam **PASS**; **L** is witnessed by an actual rational point (the instantiation exists and returns) | e.g. the 15-digit solution of x³ + 25y³ + 29z³ = 0 |
+
+> P4 (CONCEPTUAL). The faces reading and the three-term reading are complementary. The faces say *which check* failed. The three-term sequence says, for a Co failure, *whether it is local or global*, and it gives a global failure an exact algebraic invariant (O and its group).
+> In profile terms, a certified obstructed cubic is `(A: PASS, Co_local: PASS, Co_global: FAIL)`, and its L is UNRESOLVED because there is no point to transport.
+
+Kept distinct, as the record insists. The arithmetic obstruction (Sha[ψ]), the Hodge harmonic component and CPMF's O-triangle are **three different objects**. The tables above line them up; they do not identify them.
+
+A third "tri" also appears in the record: the Hodge split **gradient | curl | harmonic**. Read as seam terms, these are global / local inconsistency / locally consistent but globally obstructed. On the Arena data the harmonic term is **impossible by construction** (β₁ = 0), so the semantic transfer is NEGATIVE so far, not untested.
+
 ## 5. Mapping onto the modalities and the scalpel
 
 - **is / might / may → faces** (CONCEPTUAL, offered as a reading, not an identity):
@@ -73,7 +105,8 @@ These results are already in the handover. The tri-seam does not re-prove them; 
 1. **How independent are the faces?** Can Co be judged when L is UNRESOLVED? A first guess is a partial order, *A before L before Co*, but loops in the transport may break that. UNRESOLVED.
 2. **Per-face metrics.** Split `Θ_SEM` into `(Θ_A, Θ_L, Θ_Co)` plus a separate obstruction penalty? This must not inherit TAS's product form (`Q = τασκ`), which stays HEURISTIC and must not be presented as a probability law. UNRESOLVED.
 3. **Tri-register reading.** "Tri" could also mean a seam spanning GR / QM / SEM at once. That needs the joint GR-QM-SEM witness that has not yet been built (`GR_QM_SA_common_transport_not_constructed`). It is a different object from the three faces and must not be merged with them. UNRESOLVED.
-4. **Empirical check.** Re-score the existing finite seam checks (200) and the structural-witness set (780 classifications, 30.95% coverage) with per-face verdicts. Does abstention concentrate on one face? NOT YET RUN.
+4. **Semantic obstruction on unpooled data** (the record's next step 5). A test with the same people judging the same small set of meanings is the only place a semantic analogue of O could still show up. Score it per face as well as by the Hodge split. NOT YET RUN.
+5. **Empirical check.** Re-score the existing finite seam checks (200) and the structural-witness set (780 classifications, 30.95% coverage) with per-face verdicts. Does abstention concentrate on one face? NOT YET RUN.
 
 ## 7. What this document does *not* claim
 
