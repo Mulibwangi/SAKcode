@@ -171,6 +171,11 @@ def conjunctive_verdict(local_ok, point):
 
 
 def main():
+    global BOX
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--box", type=int, default=BOX, help="coefficient bound (default 30, the record's box)")
+    BOX = ap.parse_args().box
     t0 = time.time()
     rows = []
     for a, b, c in box(pairwise=True):
@@ -208,6 +213,7 @@ def main():
     fail_primes = sorted({p for r in rows if r["A"] == "FAIL" for p in r["A_places"]})
     unres = [r for r in adm if r["point"] is None]
     summary = {
+        "box_bound": BOX,
         "box_primary": len(rows),
         "A_PASS": len(adm),
         "A_FAIL": sum(r["A"] == "FAIL" for r in rows),

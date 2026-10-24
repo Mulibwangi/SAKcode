@@ -28,6 +28,7 @@ EULER = 0.57721566490153286061
 COARSE_TERMS = 5.0
 REFINE_TOP = 3
 T0_ALT = 1.2
+CHUNK = 10_000_000
 EIS = None
 E1_REF = {1e-7: 15.540880086056784, 0.01: 4.037929576538114, 0.5: 0.5597735947761608, 1.0: 0.21938393439552029,
           5.0: 0.0011482955912753257, 10.0: 4.156968929685325e-06}      # mpmath 1.4.1 values
@@ -91,7 +92,7 @@ def analyse(job):
            for p, r, a, b in zip(P1[use], R[use], A_[use], B_[use]) if k % int(p)}
     primes = sieve(M)
     small = [int(p) for p in primes if 5 <= p < 20000 and k % int(p)]
-    pool = [int(p) for p in primes if p > 10 ** 6 and k % int(p)]
+    pool = [int(p) for p in primes if 10 ** 6 < p <= 2 * 10 ** 7 and k % int(p)]   # cap: brute force is O(p) memory
     large = random.Random(k).sample(pool, min(10, len(pool)))
     mism = [p for p in small + large if (aps.get(p, 0) if p % 3 == 1 else 0) != ap_brute(k, p)]
     if mism:
@@ -130,17 +131,19 @@ def analyse(job):
             q *= base
     E2, E3 = int(v2.max()), int(v3.max())
     g = (v2.astype(np.int32) * (E3 + 1) + v3).astype(np.int32)
-    n_all = np.arange(M + 1, dtype=np.float64)
 
     def residuals(f2, f3, terms):
         N = 2 ** f2 * 3 ** f3 * nbad
         sN = math.sqrt(N)
         Mc = min(M, int(terms * sN) + 10)
-        S = {}
-        for t in T_VALUES:
-            for x in (t, 1 / t):
-                w = np.exp((-2 * math.pi * x / sN) * n_all[1:Mc + 1])
-                S[x] = np.bincount(g[1:Mc + 1], weights=A0[1:Mc + 1] * w, minlength=(E2 + 1) * (E3 + 1))
+        G = (E2 + 1) * (E3 + 1)
+        S = {x: np.zeros(G) for t in T_VALUES for x in (t, 1 / t)}
+        for lo in range(1, Mc + 1, CHUNK):                       # chunked to cap memory
+            hi = min(Mc + 1, lo + CHUNK)
+            n = np.arange(lo, hi, dtype=np.float64)
+            gg, aa = g[lo:hi], A0[lo:hi]
+            for x in S:
+                S[x] += np.bincount(gg, weights=aa * np.exp((-2 * math.pi * x / sN) * n), minlength=G)
         out = []
         for a2 in (range(-2, 3) if f2 == 0 else (0,)):
             for a3 in (range(-3, 4) if f3 == 0 else (0,)):
@@ -172,17 +175,24 @@ def analyse(job):
     if out["fe_accepted"]:
         sN = math.sqrt(N)
         Mc = min(M, int(TERMS * sN) + 10)
-        a = A0[1:Mc + 1] * local(2, f2, a2, E2)[v2[1:Mc + 1]] * local(3, f3, a3, E3)[v3[1:Mc + 1]]
-        n = n_all[1:Mc + 1]
+        l2, l3 = local(2, f2, a2, E2), local(3, f3, a3, E3)
         al = 2 * math.pi / sN
         vals, sabs = {}, 0.0
         for tz in (1.0, T0_ALT):
-            if w == 1:
-                terms = a / n * (np.exp(-al * n * tz) + np.exp(-al * n / tz))
-            else:
-                terms = al * a * (sum((np.exp(-al * n * u) * math.log(u) + e1(al * n * u)) / (al * n) for u in (tz, 1 / tz)))
-            vals[tz] = psum(terms)
-            sabs = max(sabs, float(np.sum(np.abs(terms))))
+            parts, sabs_t = [], 0.0
+            for lo in range(1, Mc + 1, CHUNK):                   # chunked to cap memory
+                hi = min(Mc + 1, lo + CHUNK)
+                n = np.arange(lo, hi, dtype=np.float64)
+                a = A0[lo:hi] * l2[v2[lo:hi]] * l3[v3[lo:hi]]
+                if w == 1:
+                    terms = a / n * (np.exp(-al * n * tz) + np.exp(-al * n / tz))
+                else:
+                    terms = al * a * (sum((np.exp(-al * n * u) * math.log(u) + e1(al * n * u)) / (al * n)
+                                          for u in (tz, 1 / tz)))
+                parts.append(psum(terms))
+                sabs_t += float(np.sum(np.abs(terms)))
+            vals[tz] = math.fsum(parts)
+            sabs = max(sabs, sabs_t)
         tail = 4 * math.exp(-al * Mc / max(T0_ALT, 1 / T0_ALT)) / (1 - math.exp(-al / max(T0_ALT, 1 / T0_ALT)))
         err = tail + 1e-14 * sabs
         value = vals[1.0]
