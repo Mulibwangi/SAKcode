@@ -108,6 +108,15 @@ A third "tri" also appears in the record: the Hodge split **gradient | curl | ha
 4. **Semantic obstruction on unpooled data** (the record's next step 5). A test with the same people judging the same small set of meanings is the only place a semantic analogue of O could still show up. Score it per face as well as by the Hodge split. NOT YET RUN.
 5. **Empirical check.** Re-score the existing finite seam checks (200) and the structural-witness set (780 classifications, 30.95% coverage) with per-face verdicts. Does abstention concentrate on one face? NOT YET RUN.
 
+## 6b. First test (2026-10-24): see `tri_seam/RESULTS.md`
+
+On the record's diagonal-cubic box, all six preregistered predictions held:
+- **SOLID (independent reproduction):** new code reproduces 393 locally admissible cubics, 227 / 234 point counts, a 159 plateau, and failing primes {3, 7, 13, 19}.
+- **By construction:** 0 verdict changes between the tri-seam and the conjunctive seam.
+- **Limit confirmed:** without the descent witness, the 157 stay UNRESOLVED.
+
+So the tri-seam **does not materially change outcomes** here. It adds which face failed, and where.
+
 ## 7. What this document does *not* claim
 
 - That the faces are orthogonal, or form any geometry.
