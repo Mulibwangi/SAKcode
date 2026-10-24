@@ -99,3 +99,64 @@ Add the seam probes to Π:
   in one direction, which seems right for Q→S (decoherence loses phase).
 - Does the triangle commute up to a natural isomorphism, or is non-zero seam
   holonomy itself the physical content (e.g. where gravity/quantum tension lives)?
+
+---
+
+## 5. The arithmetic seam: a computed instance
+
+The descent sequence for diagonal cubics is a worked, certified case of the
+seam law, and it is dual in exactly the sense above.
+
+**Setup.** `C : ax³ + by³ + cz³ = 0`, `D = abc`, companion curve
+`E′ : η² = ξ³ + 16D²`, 3-isogeny `ψ : E → E′`.
+
+**The two directions across the seam.**
+- Global → local: `δ : E′(ℚ) → ℚ*/ℚ*³`, `δ(ξ,η) = [η − 4D]`. It needs separate
+  definitions at O and at the 3-torsion points (0, ±4D), where η − 4D is not usable.
+- Local → global: the class the configuration demands, `τ(C) = [b²c]`.
+  Equivalent to Cohen's `[b/c]` for membership, since `[b²c] = [b/c]²` and
+  the group has exponent 3.
+
+**Obstruction:** `O(C) = τ(C) mod δ(E′(ℚ))`.
+
+**Exact sequence (Global | Local | Obstruction):**
+
+    0 → E′(ℚ)/ψE(ℚ) → Sel^(ψ)(E/ℚ) → Ш(E/ℚ)[ψ] → 0
+
+**Amended CPMF admissibility law:**
+
+    admissible ⇔ locally admissible in every register ∧ O = 0
+
+Quadrics: O ≡ 0 (Hasse–Minkowski); this is why P1 passed 744/744.
+Genus-one cubics: O can be nonzero.
+
+### Harness results (as reported, not yet audited here)
+
+| Category | Count |
+|----------|-------|
+| Locally admissible | 393 |
+| Validated (O = 0, solution found) | 201 (+ 15-digit case: included or extra?) |
+| Certified obstructed (O ≠ 0) | 157 = 92 rigid + 65 twisted |
+| **Unaccounted** | **35** |
+
+Rigid and twisted describe the size of `δ(E′(ℚ))`: torsion-only image versus
+positive rank. That is a property of E′, not yet shown to be two kinds of
+obstruction.
+
+### Next computation
+
+For each distinct D:
+
+    |Ш(E/ℚ)[ψ]| = |Sel^(ψ)| / |E′(ℚ)/ψE(ℚ)|   ∈ {1, 3, 9, …}
+
+This needs the full Selmer group and a proven Mordell–Weil image, not a point
+search. Note: Cassels–Tate forces |Ш[3]| (when finite) to be a square, but
+|Ш[ψ]| alone need not be, so record both ψ and the dual ψ̂ sides.
+
+### Link to the dual seam
+
+The descent sequence measures one adjoint pair: δ is the global→local lift
+and τ is the local class. A non-zero O is a non-vanishing round-trip residual
+that is *certified*, not just numerically large. The open CPMF question is
+whether the SEM↔QM and SEM↔GR pairs admit an invariant of the same type: a
+group that the residual lives in, rather than a scalar norm.
