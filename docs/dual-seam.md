@@ -130,14 +130,25 @@ seam law, and it is dual in exactly the sense above.
 Quadrics: O ≡ 0 (Hasse–Minkowski); this is why P1 passed 744/744.
 Genus-one cubics: O can be nonzero.
 
-### Harness results (as reported, not yet audited here)
+### Harness results
 
-| Category | Count |
-|----------|-------|
-| Locally admissible | 393 |
-| Validated (O = 0, solution found) | 201 (+ 15-digit case: included or extra?) |
-| Certified obstructed (O ≠ 0) | 157 = 92 rigid + 65 twisted |
-| **Unaccounted** | **35** |
+Reproduced with `harness/cubic_faces.py` (box: pairwise-coprime cube-free
+a ≤ b ≤ c ≤ 30; 969 cubics, 72 s):
+
+| Category | Count | Source |
+|----------|-------|--------|
+| Locally admissible (face A PASS) | 393 | reproduced |
+| Point with \|x\|,\|y\| ≤ 60, non-trivial | 201 | reproduced (227 − 26) |
+| Trivial family a = b = 1, point (1, −1, 0) | 26 | reproduced |
+| Point found only with \|x\|,\|y\| ≤ 3000 | 7 | reproduced |
+| Point found only by descent (1,25,29), (19,25,29) | 2 | verified exactly |
+| Certified obstructed (O ≠ 0) | 157 = 92 rigid + 65 twisted | record; needs PARI descent harness |
+
+**The 35 are accounted for:** 26 trivial + 7 found beyond bound 60 + 2 found
+by descent = 35. Total: 201 + 35 + 157 = 393. (The 15-digit point is one of
+the 2 descent cases, (1,25,29).) The search leaves 159 cubics without a point;
+157 + 2 = 159, so the obstructed set is exactly the search's unresolved set
+minus the two descent points.
 
 Rigid and twisted describe the size of `δ(E′(ℚ))`: torsion-only image versus
 positive rank. That is a property of E′, not yet shown to be two kinds of
