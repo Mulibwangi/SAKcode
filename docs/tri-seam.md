@@ -117,7 +117,11 @@ On the record's diagonal-cubic box, all six preregistered predictions held:
 
 So the tri-seam **does not materially change outcomes** here. It adds which face failed, and where.
 
-An independent 3-isogeny descent (mwrank, no PARI; same file) then re-certified **150 of the 157** obstructions, with 0 disagreements and 236/236 solvable controls. 7 remain UNRESOLVED because mwrank cannot prove rank 0 for them. With that witness the box reads 234 PASS / 150 FAIL / 9 UNRESOLVED.
+All **157** of the record's obstructions were then re-certified without PARI (same file), with 0 disagreements and 236/236 solvable controls:
+- **150 by an independent 3-isogeny descent** using mwrank (SOLID);
+- **7 by an analytic rank-0 check** for the curves mwrank could not settle: L(E′, 1) ≠ 0, then Kolyvagin (NUMERICAL + THEOREM).
+
+The box now reads 234 PASS / 157 FAIL / 2 UNRESOLVED.
 
 ## 7. What this document does *not* claim
 

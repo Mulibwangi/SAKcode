@@ -40,7 +40,8 @@ Predictions: `PREREG.md`, committed before the run.
 ## Still open
 
 - Re-score the 780-case structural-witness set (30.95% coverage) with per-face verdicts. This is the only existing number the tri-seam could move: by recording a FAIL on one face where the old instrument abstained. Needs that data and its format.
-- Independent 3-descent (Sage or Magma) on a sample of the 157, as in the record's next step 3.
+- ~~Independent re-check of the 157 obstructions~~: **done**. 150 were re-certified by mwrank descent and 7 by the analytic rank-0 check (sections below).
+- Re-measure the |Sha[ψ]| group sizes (1, 9, 81) independently, and investigate why they are all squares.
 
 ## Constructed cases K1–K3 (run 2026-10-24, `constructed_cases.py`)
 
@@ -85,6 +86,52 @@ Run on DL's Minisforum: 32 workers, 47.8 s. Ranks and generators came from mwran
 - **Tri-seam.** With the descent witness, the box reads 234 PASS / 150 FAIL / 9 UNRESOLVED. The 9 are the 7 above plus (1,25,29) and (19,25,29). For those two the descent agrees they are solvable, but this run holds no explicit point for face L. The record's points verify exactly (see the first run).
 - **Not re-checked:** the |Sha[ψ]| group sizes (1, 9, 81) and why they are all squares.
 
-### Next, to close the 7
+### Correction (2026-10-24): what can close the 7
 
-A 3-isogeny Selmer bound written independently would certify rank 0 without going through 2-descent. That is the same quantity as the record's harness 4, but with separate code. Alternatively, Sage or Magma 3-descent. PARI's `ellrank` would settle them, but it would not be independent.
+An earlier version of this note said a 3-isogeny Selmer bound would certify rank 0 for these curves. **That was wrong.** Each of the 7 cubics is a non-trivial element of Sha[ψ], and the record gives |Sha[ψ]| ≥ 9 on these curves. Those elements lie inside Sel^ψ, so the Selmer bound cannot go below rank ≤ 2. The 7 were closed analytically instead (next section).
+
+## Analytic rank-0 check for the 7 (run 2026-10-24, `lfun_check.py`; predictions in `PREREG_analytic.md`)
+
+Run on DL's Minisforum with system python3 and numpy 1.26.4. Nothing was installed. 32 workers, 11.1 s. The harness checksum matched (`d2064fdb…a9c6a6`). The self-test passed first (N = 36, 27, 27, 1728, 972, 10404). Coefficients ran to n = 20,129,571, using 638,989 split primes. The per-curve results are in `lfun_results.json` on that machine.
+
+| Curve | N (found by functional equation) | w | FE residual / runner-up | L(E′, 1) | Error bound |
+|---|---:|---:|---|---:|---:|
+| target D = 850 | 780 300 | +1 | 2.7e-15 / 8.0e-04 | 6.71394 | 4.0e-14 |
+| target D = 1012 | 6 912 972 | +1 | 2.5e-15 / 2.6e-04 | 6.33466 | 6.0e-14 |
+| target D = 1173 | 37 150 083 | +1 | 2.4e-15 / 1.9e-03 | 6.03047 | 1.3e-13 |
+| target D = 2300 | 1 428 300 | +1 | 2.5e-15 / 2.9e-03 | 4.81808 | 4.4e-14 |
+| target D = 3335 | 300 300 075 | +1 | 3.7e-14 / 1.2e-03 | 4.25682 | 1.8e-13 |
+| target D = 7337 | 484 484 121 | +1 | 3.4e-15 / 3.3e-04 | 6.54597 | 1.8e-13 |
+| target D = 12325 | 164 058 075 | +1 | 5.5e-15 / 1.3e-03 | 2.75331 | 1.3e-13 |
+| control D = 1, rank 0 | 27 | +1 | 1.8e-16 / 2.4e-03 | 0.58888 | 2.4e-15 |
+| control D = 2, rank 0 | 36 | +1 | 7.3e-17 / 1.5e-02 | 0.701091 | 2.8e-15 |
+| control D = 3, rank 0 | 243 | +1 | 2.6e-16 / 6.3e-04 | 1.22492 | 6.5e-15 |
+| control D = 6, rank 1 | 972 | −1 | 2.0e-15 / 4.6e-04 | 0 (by sign) | — |
+| control D = 7, rank 1 | 441 | −1 | 1.3e-15 / 4.3e-03 | 0 (by sign) | — |
+| control D = 9, rank 1 | 243 | −1 | 1.3e-15 / 1.1e-03 | 0 (by sign) | — |
+| control D = 19, rank 2 | 9 747 | +1 | 5.8e-16 / 2.5e-03 | 1.2e-17 | 1.8e-14 |
+| control D = 30, rank 2 | 24 300 | +1 | 8.2e-16 / 3.1e-03 | 1.2e-16 | 1.6e-14 |
+| control D = 65, rank 2 | 38 025 | +1 | 6.4e-16 / 3.1e-03 | 2.3e-17 | 2.2e-14 |
+| control D = 1020, rank 3 | 7 022 700 | −1 | 3.6e-15 / 1.0e-02 | 0 (by sign) | — |
+
+| | Prediction | Outcome | Verdict |
+|---|---|---|---|
+| V | The aₚ formula matches brute force on every curve | No mismatches on any of the 17 curves | **Supported** |
+| F1 | A unique accepted (N, w) for each target | 7/7 | **Supported** |
+| F2 | w = +1 for all 7 | 7/7 | **Supported** |
+| F3 | L(E′, 1) > 1000 × error, hence rank 0 and the obstruction certified | 7/7; L(1) ranges 2.75–6.71, each at least 10¹³ × its error bound | **Supported** |
+| C1 | Controls: w = (−1)^rank; L(1) clearly > 0 at rank 0 and ≈ 0 at rank ≥ 1 | 10/10 | **Supported** |
+
+### What this shows (each item labelled)
+
+- **NUMERICAL + THEOREM.** The 7 companion curves mwrank left open have rank 0. By rank 0 we get im δ = ⟨[D]⟩, and the exact cube test gives m ∉ im δ. So all **7 obstructions are certified**.
+  - L(E′, 1) is non-zero by a margin of more than 10¹³ times the computed error bound.
+  - Rank 0 then follows from Gross–Zagier–Kolyvagin together with modularity.
+  - The conductors were identified numerically, by the functional equation. Residuals are 10⁻¹⁴ or smaller, and every runner-up is 10⁻⁴ or larger.
+- **The controls discriminate.** Curves of known rank 1, 2 and 3 gave the expected sign and L(1) ≈ 0 (≤ 10⁻¹⁶). So a non-zero L(1) is not an artefact of the code.
+- **Combined with the descent run:** all **157 of the record's 157** local-global failures are now independently re-certified, without PARI.
+  - **150** by mwrank descent (SOLID).
+  - **7** by the analytic route (NUMERICAL + THEOREM).
+  - No disagreements anywhere.
+- **Tri-seam, final for this box:** 234 PASS / 157 FAIL / 2 UNRESOLVED. The 2 are (1,25,29) and (19,25,29), which are solvable by descent; this pipeline holds no face-L point for them, but the record's points verify exactly.
+- **Not re-checked:** the |Sha[ψ]| group sizes and why they are all squares. Consistent with the record, but not computed: L(1) values of size 3–7 on rank-0 curves are what you expect when Sha is non-trivial. No BSD quotient was computed.
