@@ -57,3 +57,34 @@ Status **CONSTRUCTED**: these pass by construction. They show the face checks ma
 - K2 is the local-to-global gap in miniature. Each overlap is satisfiable on its own, but no global section exists. The obstruction is the cocycle class (2 mod 3), the counterpart of O in the Seam Obstruction Record.
 - The controls (a monotone map, a cocycle summing to 0 mod 3, the correct referents) all PASS, so no face fails by accident.
 - K1's Co_global equals Co_local by design: with a single chart, joint compatibility is just the conjunction of the local constraints.
+
+## Independent 3-isogeny descent (run 2026-10-24, `descent_check.py`; predictions in `PREREG_descent.md`)
+
+Run on DL's Minisforum: 32 workers, 47.8 s. Ranks and generators came from mwrank (eclib), via `passagemath-eclib` 10.8.13 in `~/Desktop/sshj/tri_seam/.venv-eclib`. No PARI was used. The harness checksum matched (`c5185fda…e5cc0`). The per-cubic results are in `descent_results.json` on that machine.
+
+```json
+{"admissible":393,"curves":315,"curves_undecided":[850,1012,1173,2300,3335,7337,12325],
+ "D1_solvable_in_image":"236/236","D1_solvable_undecided":0,
+ "D2_obstructed_confirmed":"150/157","D2_obstructed_undecided":7,"disagreements":[],
+ "D3_obstructed_rank0":85,"D3_obstructed_rank_pos":65,"D4_decided_share":0.9822,
+ "D5_tri_verdicts":{"PASS":234,"FAIL":150,"UNRESOLVED":9},"max_rank":3,"slowest_curve_secs":41.58,"secs":47.8}
+```
+
+| | Prediction | Outcome | Verdict |
+|---|---|---|---|
+| D1 | All 236 solvable cubics: m ∈ im δ | 236/236, none undecided | **Supported** (the method and conventions check out) |
+| D2 | All decided obstructed cubics: m ∉ im δ | 150/150 decided agree; 7 undecided; **0 disagreements** | **Supported** |
+| D3 | 92 rank-0 / 65 positive-rank companions among the 157 | 65 positive-rank (exact); 85 rank 0 certified + 7 where mwrank finds rank 0 but cannot prove it | **Supported for 65; 92 consistent but not certified** (85 + 7 uncertain) |
+| D4 | ≥ 90% of the 393 decided unconditionally | 98.2% | **Supported** |
+| D5 | Decided obstructed cubics → Co_global FAIL, seam FAIL; no PASS changes | 150 FAIL; 234 PASS unchanged | **Supported** |
+
+### What this shows (each item labelled)
+
+- **SOLID (independent re-check).** 150 of the record's 157 local-global failures are re-certified by a separate rank and saturation engine (mwrank), with the descent test written from scratch, and with no disagreement anywhere in the box. All 236 solvable cubics land in im δ, which confirms the shared conventions (δ and m = [b/c]).
+- **UNRESOLVED, 7 cubics.** (2,17,25), (3,17,23), (4,11,23), (4,23,25), (5,23,29), (11,23,29), (17,25,29), with D = 850, 1173, 1012, 2300, 3335, 7337, 12325. mwrank finds rank 0 for each companion but cannot prove the upper bound. The likely cause is a non-trivial 2-part of Sha blocking its 2-descent. That cause is **not shown** here. These cases are not counted as agreement.
+- **Tri-seam.** With the descent witness, the box reads 234 PASS / 150 FAIL / 9 UNRESOLVED. The 9 are the 7 above plus (1,25,29) and (19,25,29). For those two the descent agrees they are solvable, but this run holds no explicit point for face L. The record's points verify exactly (see the first run).
+- **Not re-checked:** the |Sha[ψ]| group sizes (1, 9, 81) and why they are all squares.
+
+### Next, to close the 7
+
+A 3-isogeny Selmer bound written independently would certify rank 0 without going through 2-descent. That is the same quantity as the record's harness 4, but with separate code. Alternatively, Sage or Magma 3-descent. PARI's `ellrank` would settle them, but it would not be independent.
