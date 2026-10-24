@@ -43,7 +43,7 @@ Predictions: `PREREG.md`, committed before the run.
 - ~~Independent re-check of the 157 obstructions~~: **done**. 150 were re-certified by mwrank descent and 7 by the analytic rank-0 check (sections below).
 - ~~Re-measure the |Sha[ψ]| group sizes~~: **done**. 315/315 agree with the record (section below).
 - ~~Why every |Sha[ψ]| is a square~~: **explained, conditionally**. Sha(E′)[ψ̂] = 0 on all 315 curves, so Sha(E)[ψ] = Sha(E)[3], which Cassels–Tate makes a square whenever Sha(E)[3^∞] is finite (section below).
-- Make the explanation unconditional for more curves: prove Sha(E)[3^∞] finite, e.g. analytic rank ≤ 1 plus Kolyvagin, for the 119 curves with non-trivial Sha[ψ]. Currently it is shown only for the 7 analytic rank-0 curves.
+- ~~Make the square explanation unconditional~~: **done for 115 of 119**, via analytic rank ≤ 1 plus Kolyvagin (section below). Still conditional for the 4 rank-2 curves, D = 7590, 9570, 11730 and 14790.
 
 ## Constructed cases K1–K3 (run 2026-10-24, `constructed_cases.py`)
 
@@ -197,3 +197,34 @@ Run on DL's Minisforum with system python3, 0.1 s. The harness checksum matched 
   - This closes the record's OPEN item, conditionally.
 - **Caveat on validation strength.** The "power of 3" check is weak: in the cloud test, an inverted formula failed it on only 2 of 68 curves. The formula's direction is pinned by the D = 1 anchor. E(Q) = ℤ/3 forces |Sel^ψ̂| ≥ 3; the correct direction gives exactly 3, and the inverted one gives 1/3, which is impossible. It is further pinned by the local checks at good primes, which pass on 315/315 curves.
 - **Not a test of the tri-seam.** The powers of 3 come from using a degree-3 isogeny, not from any three-sided structure (see the discussion of 24 Oct). The seam-relevant shape is the three-term sequence (global | locally admissible | obstruction), which is independent of the degree.
+
+## Analytic rank ≤ 1 for the curves with non-trivial Sha[ψ] (run 2026-10-24, `rank_check.py`; predictions in `PREREG_rank.md`)
+
+Run on DL's Minisforum with system python3 and numpy, 16 workers, 13.9 s. The harness checksum matched (`d6cc9e43…ac830072`). The self-test passed first, 6/6 controls. E₁ was validated against mpmath, with max relative error 2.5e-16.
+
+```
+control D=6 rank=1     N=972 w=-1 L'(1)=2.37619 alt=2.37619 err=2.5e-14 rank_an=1
+control D=7 rank=1     N=441 w=-1 L'(1)=1.65177 alt=1.65177 err=2.0e-14 rank_an=1
+control D=9 rank=1     N=243 w=-1 L'(1)=1.29019 alt=1.29019 err=1.5e-14 rank_an=1
+control D=19 rank=2    N=9747 w=1 L(1)=1.23625e-17 alt=1.41341e-16 err=4.4e-14 rank_an=>=2
+control D=30 rank=2    N=24300 w=1 L(1)=1.20383e-16 alt=3.92074e-16 err=4.1e-14 rank_an=>=2
+control D=65 rank=2    N=38025 w=1 L(1)=2.34122e-17 alt=3.45276e-17 err=5.5e-14 rank_an=>=2
+{"errors":[],"E1_max_rel_err":2.488175462918802e-16,"R0_controls_ok":"6/6","R0_two_t0_agree":"119/119",
+ "R1_fe_accepted":"119/119","R1_parity_w_eq_minus1_pow_r":"119/119","curves_by_algebraic_rank":{"0":71,"1":44,"2":4},
+ "R2_finite_sha_proven":"115/119","R2_by_rank":{"0":"71/71","1":"44/44","2":"0/4"},
+ "R3_not_provable_D":[7590,9570,11730,14790],"secs":13.8}
+```
+
+| | Prediction | Outcome | Verdict |
+|---|---|---|---|
+| R0 | Validation: aₚ, E₁, two-t₀ agreement; controls behave | No errors; E₁ 2.5e-16; 119/119 agree; controls 6/6 | **Supported** |
+| R1 | A unique (N, w) with w = (−1)^r for every curve | 119/119 accepted; parity 119/119 | **Supported** |
+| R2 | r = 0 ⇒ analytic rank 0; r = 1 ⇒ analytic rank 1; Sha finite | 71/71 and 44/44 | **Supported** |
+| R3 | r ≥ 2 curves are not provable this way | All 4 rank-2 curves stay unprovable | **Supported (the stated limit)** |
+
+### What this shows (each item labelled)
+
+- **NUMERICAL + THEOREM.** For **115 of the 119** curves with non-trivial Sha[ψ], including both size-81 curves, ord_{s=1} L(E, s) equals the algebraic rank r ≤ 1. Gross–Zagier–Kolyvagin then makes **Sha(E) finite**.
+- **Combined with the dual-Sha run (exact):** on these 115 curves, Sha(E)[3] = Sha(E)[ψ] and Sha(E)[3^∞] is finite. So the Cassels–Tate pairing **forces** |Sha(E)[ψ]| to be a square. The square pattern is now **explained unconditionally** for 115/119 non-trivial curves; the 196 curves of size 1 are squares trivially.
+- **Still conditional:** D = 7590, 9570, 11730, 14790. All four have algebraic rank 2, where Kolyvagin does not apply. Finiteness of Sha there is the standard conjecture, not shown.
+- **Status of the explanation:** this applies known theorems (Cassels–Tate, Gross–Zagier, Kolyvagin) to the record's data. It is new **to the record**, and is not claimed as new mathematics; the literature was not checked.
