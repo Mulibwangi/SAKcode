@@ -46,3 +46,13 @@ E′: y² = x³ + k, with k = 16D² reduced by sixth powers.
 - Rank 0 then follows from the cited theorems.
 
 The code is independent of both PARI and eclib.
+
+## Amendment (2026-10-24, before any target or control run)
+
+**What happened.** In the self-test, y² = x³ + 9 got the correct candidate (N = 972, w = −1) with residual 1.4 × 10⁻¹⁵. An unrelated small-conductor candidate (N = 27) came in at 6.1 × 10⁻⁵, under the 10⁻⁴ runner-up rule, so the correct answer was wrongly rejected. Tiny-N candidates give smooth θ functions that the two-point test separates poorly.
+
+**Changes, fixed before any target or control was run:**
+- Test the functional equation at t = 1.1, 1.25 **and 1.5**.
+- Accept iff the best residual < 10⁻⁹ **and the runner-up > 10⁻⁶**.
+
+All target curves have N ≥ 7225, where this effect does not arise.
