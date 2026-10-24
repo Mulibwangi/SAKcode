@@ -42,7 +42,8 @@ Predictions: `PREREG.md`, committed before the run.
 - Re-score the 780-case structural-witness set (30.95% coverage) with per-face verdicts. This is the only existing number the tri-seam could move: by recording a FAIL on one face where the old instrument abstained. Needs that data and its format.
 - ~~Independent re-check of the 157 obstructions~~: **done**. 150 were re-certified by mwrank descent and 7 by the analytic rank-0 check (sections below).
 - ~~Re-measure the |Sha[ψ]| group sizes~~: **done**. 315/315 agree with the record (section below).
-- **Why** every |Sha[ψ]| is a square: still OPEN. Next step: compute the dual group Sha(E′)[ψ̂], or Cassels' Selmer ratio, for the same curves.
+- ~~Why every |Sha[ψ]| is a square~~: **explained, conditionally**. Sha(E′)[ψ̂] = 0 on all 315 curves, so Sha(E)[ψ] = Sha(E)[3], which Cassels–Tate makes a square whenever Sha(E)[3^∞] is finite (section below).
+- Make the explanation unconditional for more curves: prove Sha(E)[3^∞] finite, e.g. analytic rank ≤ 1 plus Kolyvagin, for the 119 curves with non-trivial Sha[ψ]. Currently it is shown only for the 7 analytic rank-0 curves.
 
 ## Constructed cases K1–K3 (run 2026-10-24, `constructed_cases.py`)
 
@@ -167,3 +168,32 @@ Run on DL's Minisforum with system python3, 32 workers, 0.35 s. The harness chec
 - **Observation.** The 117 curves of size 9 are exactly the 117 values of D that carry an obstructed cubic in the box. Both size-81 curves (D = 5610, 20010) carry none. Their Sha elements correspond to diagonal cubics outside the box's coefficient bound or normalisation; that is **not checked**.
 - **Not investigated:** the record file holds 316 per-D entries, one more than the 315 curves of this box.
 - **OPEN, unchanged:** *why* every size is a square. The Cassels–Tate pairing relates Sha(E)[ψ] to the dual Sha(E′)[ψ̂], not to itself, so squareness is not automatic for the ψ-part. This run confirms the pattern; it does not explain it.
+
+## Dual group Sha(E′)[ψ̂] (run 2026-10-24, `dual_sha_check.py`; predictions in `PREREG_dual.md`)
+
+Run on DL's Minisforum with system python3, 0.1 s. The harness checksum matched (`7c00ebcd…055e4`).
+
+- **Method:** Cassels' Selmer-ratio formula. The local images |im δ_p| at every p | 3D come from this project's exact local test, and the global inputs from `sha_results.json`. No PARI, and no arithmetic over ℚ(√−3).
+
+```json
+{"curves":315,"errors":[],"T0_good_prime_checks":"315/315","T0_sel_hat_power_of_3":"315/315",
+ "T0_sha_hat_power_of_3":"315/315","T0_D1":{"sel_hat":"3","sha_hat":"1"},
+ "T1_sha_hat_trivial":"315/315","T1_nontrivial_D":[],
+ "pairs_sha_vs_sha_hat":{"1 | 1":196,"81 | 1":2,"9 | 1":117},"secs":0.0}
+```
+
+| | Prediction | Outcome | Verdict |
+|---|---|---|---|
+| T0 | At good primes \|im δ_p\| = \|E(Q_p)[ψ]\|; both sizes powers of 3 on all curves; D = 1 gives 3 and 1 | 315/315, 315/315, 315/315; D = 1 gives 3 and 1 | **Supported** |
+| T1 | Sha(E′)[ψ̂] = 0 on all 315 curves | **315/315 trivial** | **Supported** |
+
+### What this shows (each item labelled)
+
+- **SOLID, given Cassels' formula.** Sha(E′)[ψ̂] = 0 for all 315 companion curves. All the non-trivial Sha found in the box (117 curves of size 9, 2 of size 81) sits on the E side of the isogeny.
+- **Consequence (exact).** Sha(E)[3] = Sha(E)[ψ] on every curve. Any x ∈ Sha(E)[3] has ψ(x) ∈ Sha(E′)[ψ̂] = 0, so x ∈ Sha(E)[ψ].
+- **Explanation of the square pattern: THEOREM + condition.**
+  - If Sha(E)[3^∞] is finite, the Cassels–Tate pairing is alternating and non-degenerate on it. Then Sha(E)[3^∞] ≅ M × M, and |Sha(E)[3]| = |M[3]|² is a square. That is exactly the observed 1, 9, 81.
+  - The condition is proven (Kolyvagin) for the 7 curves with L(E′, 1) ≠ 0 computed above. For the other curves it is the standard expectation, not shown here.
+  - This closes the record's OPEN item, conditionally.
+- **Caveat on validation strength.** The "power of 3" check is weak: in the cloud test, an inverted formula failed it on only 2 of 68 curves. The formula's direction is pinned by the D = 1 anchor. E(Q) = ℤ/3 forces |Sel^ψ̂| ≥ 3; the correct direction gives exactly 3, and the inverted one gives 1/3, which is impossible. It is further pinned by the local checks at good primes, which pass on 315/315 curves.
+- **Not a test of the tri-seam.** The powers of 3 come from using a degree-3 isogeny, not from any three-sided structure (see the discussion of 24 Oct). The seam-relevant shape is the three-term sequence (global | locally admissible | obstruction), which is independent of the degree.
