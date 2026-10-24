@@ -1,0 +1,197 @@
+{
+ "K1": {
+  "tri_verdict": "FAIL",
+  "conjunctive_verdict": "FAIL",
+  "failing_faces": [
+   "Co_local",
+   "Co_global"
+  ],
+  "faces": {
+   "A": {
+    "status": "PASS"
+   },
+   "L": {
+    "status": "PASS"
+   },
+   "Co_local": {
+    "status": "FAIL",
+    "relation_violations": 7,
+    "example": [
+     [
+      "<",
+      "p0",
+      "p1"
+     ],
+     [
+      "<",
+      "p0",
+      "p3"
+     ],
+     [
+      "<",
+      "p0",
+      "p5"
+     ]
+    ]
+   },
+   "Co_global": {
+    "status": "FAIL",
+    "relation_violations": 7,
+    "example": [
+     [
+      "<",
+      "p0",
+      "p1"
+     ],
+     [
+      "<",
+      "p0",
+      "p3"
+     ],
+     [
+      "<",
+      "p0",
+      "p5"
+     ]
+    ]
+   }
+  },
+  "prediction": {
+   "A": "PASS",
+   "L": "PASS",
+   "Co": "FAIL"
+  },
+  "prediction_held": true,
+  "verdicts_agree": true
+ },
+ "K2": {
+  "tri_verdict": "FAIL",
+  "conjunctive_verdict": "FAIL",
+  "failing_faces": [
+   "Co_global"
+  ],
+  "faces": {
+   "A": {
+    "status": "PASS"
+   },
+   "L": {
+    "status": "PASS"
+   },
+   "Co_local": {
+    "status": "PASS"
+   },
+   "Co_global": {
+    "status": "FAIL",
+    "global_sections": 0,
+    "obstruction_class": 2
+   }
+  },
+  "prediction": {
+   "Co_local": "PASS",
+   "Co_global": "FAIL"
+  },
+  "prediction_held": true,
+  "verdicts_agree": true
+ },
+ "K3": {
+  "tri_verdict": "FAIL",
+  "conjunctive_verdict": "FAIL",
+  "failing_faces": [
+   "A"
+  ],
+  "faces": {
+   "A": {
+    "status": "FAIL",
+    "wrong_referent": [
+     "p0",
+     "p1"
+    ]
+   },
+   "L": {
+    "status": "PASS"
+   },
+   "Co_local": {
+    "status": "PASS"
+   },
+   "Co_global": {
+    "status": "PASS"
+   }
+  },
+  "prediction": {
+   "A": "FAIL",
+   "L": "PASS",
+   "Co": "PASS"
+  },
+  "prediction_held": true,
+  "verdicts_agree": true
+ },
+ "K1_control": {
+  "tri_verdict": "PASS",
+  "conjunctive_verdict": "PASS",
+  "failing_faces": [],
+  "faces": {
+   "A": {
+    "status": "PASS"
+   },
+   "L": {
+    "status": "PASS"
+   },
+   "Co_local": {
+    "status": "PASS"
+   },
+   "Co_global": {
+    "status": "PASS"
+   }
+  },
+  "prediction": "control (added after preregistration): expect all faces PASS",
+  "prediction_held": true,
+  "verdicts_agree": true
+ },
+ "K2_control": {
+  "tri_verdict": "PASS",
+  "conjunctive_verdict": "PASS",
+  "failing_faces": [],
+  "faces": {
+   "A": {
+    "status": "PASS"
+   },
+   "L": {
+    "status": "PASS"
+   },
+   "Co_local": {
+    "status": "PASS"
+   },
+   "Co_global": {
+    "status": "PASS",
+    "global_sections": 3,
+    "obstruction_class": 0
+   }
+  },
+  "prediction": "control (added after preregistration): expect all faces PASS",
+  "prediction_held": true,
+  "verdicts_agree": true
+ },
+ "K3_control": {
+  "tri_verdict": "PASS",
+  "conjunctive_verdict": "PASS",
+  "failing_faces": [],
+  "faces": {
+   "A": {
+    "status": "PASS"
+   },
+   "L": {
+    "status": "PASS"
+   },
+   "Co_local": {
+    "status": "PASS"
+   },
+   "Co_global": {
+    "status": "PASS"
+   }
+  },
+  "prediction": "control (added after preregistration): expect all faces PASS",
+  "prediction_held": true,
+  "verdicts_agree": true
+ },
+ "all_held": true
+}

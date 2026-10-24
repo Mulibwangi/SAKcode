@@ -25,7 +25,9 @@ Predictions: `PREREG.md`, committed before the run.
 | R4 | Local failures only at primes {3, 7, 13, 19} | [3, 7, 13, 19] | **Supported** |
 | R5 | (1,25,29) and (19,25,29) are not found by search; the record's points verify exactly | Both unresolved; both points verify | **Supported** |
 | R6 | Without descent, the tri-seam cannot reproduce the 157 FAILs | 159 UNRESOLVED, 0 obstructions certified | **Supported** (the stated limit holds) |
-| K1–K3 | Constructed logic cases | Not implemented yet | **Not run** |
+| K1 | Exact round trip, order broken: faces A PASS, L PASS, Co FAIL | A PASS, L PASS, Co FAIL (7 order violations) | **Supported** (constructed) |
+| K2 | ℤ₃ triangle: Co_local PASS, Co_global FAIL | Co_local PASS; Co_global FAIL (0 global sections, obstruction class 2) | **Supported** (constructed) |
+| K3 | Swapped referent: A FAIL, L PASS, Co PASS | A FAIL (p0, p1), L PASS, Co PASS | **Supported** (constructed) |
 
 ## What this shows (each item labelled)
 
@@ -38,5 +40,20 @@ Predictions: `PREREG.md`, committed before the run.
 ## Still open
 
 - Re-score the 780-case structural-witness set (30.95% coverage) with per-face verdicts. This is the only existing number the tri-seam could move: by recording a FAIL on one face where the old instrument abstained. Needs that data and its format.
-- Implement K1–K3.
 - Independent 3-descent (Sage or Magma) on a sample of the 157, as in the record's next step 3.
+
+## Constructed cases K1–K3 (run 2026-10-24, `constructed_cases.py`)
+
+Status **CONSTRUCTED**: these pass by construction. They show the face checks match their definitions, not anything about the world.
+
+| Case | Tri-seam verdict | Single-predicate verdict | Face the tri-seam names |
+|---|---|---|---|
+| K1 relation counterexample | FAIL | FAIL | Co (local and global) |
+| K2 ℤ₃ cocycle, g₁₂+g₂₃+g₃₁ = 2 mod 3 | FAIL | FAIL | Co_global only |
+| K3 wrong-referent proxy | FAIL | FAIL | A only |
+| Passing control for each (added after preregistration) | PASS | PASS | none |
+
+- All three preregistered predictions held. The single predicate gives FAIL in every case but cannot say which face failed. The tri-seam names it.
+- K2 is the local-to-global gap in miniature. Each overlap is satisfiable on its own, but no global section exists. The obstruction is the cocycle class (2 mod 3), the counterpart of O in the Seam Obstruction Record.
+- The controls (a monotone map, a cocycle summing to 0 mod 3, the correct referents) all PASS, so no face fails by accident.
+- K1's Co_global equals Co_local by design: with a single chart, joint compatibility is just the conjunction of the local constraints.
